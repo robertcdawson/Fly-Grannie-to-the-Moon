@@ -44,7 +44,7 @@
 
     function create() {
       // this.add.tileSprite(300, 0, 1920, 1920, 'background');
-      this.physics.world.setBounds(0, 0, 800, 1000, 0, true, true, true, true);
+      this.physics.world.setBounds(0, 0, 800, 1500, 0, true, true, true, true);
 
       worldWidth = this.physics.world.bounds.width;
       worldHeight = this.physics.world.bounds.height;
@@ -59,7 +59,12 @@
 
       grass.create(worldWidth / 2, worldHeight - 450, 'grass').setScale(.9).refreshBody();
 
-      player = this.physics.add.sprite(400, 880, 'player');
+      street.create(worldWidth / 2, worldHeight - 630, 'street').setScale(.9).refreshBody();
+      street.create(worldWidth / 2, worldHeight - 830, 'street').setScale(.9).refreshBody();
+
+      grass.create(worldWidth / 2, worldHeight - 1000, 'grass').setScale(.9).refreshBody();
+
+      player = this.physics.add.sprite(400, worldHeight - 120, 'player');
       player.setCollideWorldBounds(true);
     }
 
