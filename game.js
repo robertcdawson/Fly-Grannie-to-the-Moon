@@ -24,6 +24,7 @@ function preload() {
   this.load.image('street', 'assets/street.png');
   this.load.image('player', 'assets/phaser-dude.png');
   this.load.image('redCar', 'assets/car-red.png');
+  this.load.image('purpleCar', 'assets/car-purple.png');
 }
 
 var player;
@@ -31,6 +32,7 @@ var cursors;
 var worldWidth;
 var worldHeight;
 var redCar;
+var purpleCar;
 var gameOver = false;
 
 function create() {
@@ -57,11 +59,16 @@ function create() {
   redCar = this.physics.add.image(-150, worldHeight - 223, 'redCar');
   redCar.setVelocity(200, 0);
 
+  purpleCar = this.physics.add.image(worldWidth + 450, worldHeight - 317, 'purpleCar');
+  purpleCar.setSize(192, 85, -150);
+  purpleCar.flipX = true;
+  purpleCar.setVelocity(-200, 0);
+
   player = this.physics.add.sprite(worldWidth / 2, worldHeight - 120, 'player');
   player.setCollideWorldBounds(true);
 
-  // this.physics.add.collider(player, redCar);
   this.physics.add.collider(player, redCar, hitCar, null, this);
+  this.physics.add.collider(player, purpleCar, hitCar, null, this);
 }
 
 function update() {
@@ -88,6 +95,7 @@ function update() {
   camera.startFollow(player, false, 1, 1, 0, 0);
 
   this.physics.world.wrap(redCar, 300);
+  this.physics.world.wrap(purpleCar, 300);
 }
 
 function hitCar(player, car) {
