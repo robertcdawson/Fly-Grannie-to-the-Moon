@@ -27,13 +27,13 @@ function preload() {
   this.load.image('purpleCar', 'assets/car-purple.png');
 }
 
-var player;
-var cursors;
-var worldWidth;
-var worldHeight;
-var redCar;
-var purpleCar;
-var gameOver = false;
+let player;
+let cursors;
+let worldWidth;
+let worldHeight;
+let redCar;
+let purpleCar;
+let gameOver = false;
 
 function create() {
   this.physics.world.setBounds(0, 0, 800, 1500, 0, true, true, true, true);
@@ -56,13 +56,38 @@ function create() {
 
   grass.create(worldWidth / 2, worldHeight - 1000, 'grass').setScale(.9).refreshBody();
 
-  redCar = this.physics.add.image(-150, worldHeight - 223, 'redCar');
-  redCar.setVelocity(200, 0);
+  function shuffle(array) {
+    let shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }
 
-  purpleCar = this.physics.add.image(worldWidth + 450, worldHeight - 317, 'purpleCar');
-  purpleCar.setSize(192, 85, -150);
-  purpleCar.flipX = true;
-  purpleCar.setVelocity(-200, 0);
+  const cars = [{
+    x: -150,
+    y: worldHeight - 223,
+    v: 200,
+    flipX: false,
+  }, {
+    x: worldWidth + 450,
+    y: worldHeight - 317,
+    v: -200,
+    flipX: true,
+  }];
+
+  const carsRandomized = shuffle(cars);
+
+  console.log(carsRandomized[0].x);
+
+  redCar = this.physics.add.image(carsRandomized[0].x, carsRandomized[0].y, 'redCar');
+  redCar.setVelocity(carsRandomized[0].v, 0);
+  redCar.flipX = carsRandomized[0].flipX;
+
+  purpleCar = this.physics.add.image(carsRandomized[1].x, carsRandomized[1].y, 'purpleCar');
+  purpleCar.setVelocity(carsRandomized[1].v, 0);
+  purpleCar.flipX = carsRandomized[1].flipX;
 
   player = this.physics.add.sprite(worldWidth / 2, worldHeight - 120, 'player');
   player.setCollideWorldBounds(true);
